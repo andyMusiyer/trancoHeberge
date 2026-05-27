@@ -1,0 +1,139 @@
+// quick styling items, can ignore
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+:root {
+	--color-neutral-100: oklch(0.141 0.005 285.823);
+	--color-neutral-200: oklch(0.21 0.006 285.885);
+	--color-accent: oklch(0.685 0.169 237.323);
+	--color-accent-hover: oklch(0.588 0.158 241.966);
+	--color-text: oklch(0.985 0 0);
+	--rounding: .5rem;
+	--sidebar-toggler-size: 3rem;
+	--font: Geist Mono, monospace;
+}
+
+
+// The sidebar width has to be defined with @property, as we need it to be
+// an animatable property. 
+@property --sidebar-width {
+  syntax: '<number>'; 
+  initial-value: 0; // rem scale, calculated later with calc(var(--sidebar-width) * 1rem)
+  inherits: true;
+}
+
+// I'm not actually sure if it's possible to move these values into css vars - 
+// it seems like that breaks the animation, but I'm wondering if I'm just missing
+// something with assigning the property correctly.
+@keyframes openSidebar {
+	from {
+		--sidebar-width: 0
+	}
+	to {
+		--sidebar-width: 16;
+	}
+}
+
+@keyframes closeSidebar {
+	from {
+		--sidebar-width: 16;
+	}
+	to {
+		--sidebar-width: 0
+	}
+}
+
+body {
+	color: var(--color-text);
+	background: var(--color-neutral-100);
+	font-family: var(--font);
+}
+
+.wrapper {
+	background: var(--color-neutral-100);
+	container-type: inline-size;
+
+	// checking the sidebar toggler checkbox if it's checked, and if so/not so, setting our width
+	
+	&:has(#sidebar-toggler-input:checked){
+		animation: .25s ease openSidebar;
+		--sidebar-width: 16;
+	}
+	&:not(:has(#sidebar-toggler-input:checked)){
+		animation: .25s ease closeSidebar;
+		--sidebar-width: 0;
+	}
+}
+
+
+.sidebar {
+	z-index:40;
+	background-color: var(--color-accent);
+	position: absolute;
+	left: -16rem;
+	top: 0;
+	bottom:0;
+	display: flex;
+	align-items: stretch;
+	justify-content: stretch;
+	width: 16rem;
+	transform: translateX(calc(var(--sidebar-width) * 1rem));
+	
+	&-content {
+		position: relative;
+		height: 100%;
+		width: 100%;
+	}
+	
+	&-toggler {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		right: calc(var(--sidebar-toggler-size) * -1);
+		top:0;
+		background: var(--color-accent);
+		height: var(--sidebar-toggler-size);
+		width: var(--sidebar-toggler-size);
+		border: 0;
+		border-bottom-right-radius: var(--rounding);
+		cursor: pointer;
+		transition: .15s ease;
+		z-index: 50;
+		
+		&-icon {
+			fill: var(--color-text);
+			height: calc(var(--sidebar-toggler-size) * 0.5);
+			width: calc(var(--sidebar-toggler-size) * 0.5);
+		}
+		
+		&:hover {
+			background: var(--color-accent-hover);
+		}
+		input {
+			display: none;	
+		}
+	}
+}
+
+
+
+.content {
+	position: relative;
+	background: var(--color-neutral-200);
+	padding: 3rem 2rem 1rem;
+	> * {
+		max-width: 48rem;
+	}
+}
+
+.padding {
+	padding: 1rem;
+}
+
+a {
+	color: var(--color-accent);
+	text-decoration: none;
+	transition: .2s ease color;
+	&:hover {
+		color: var(--color-accent-hover);
+	}
+}

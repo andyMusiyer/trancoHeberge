@@ -1,0 +1,175 @@
+@import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap");
+:root {
+  --color-neutral-100: oklch(100% 0.00011 271.152);
+  --color-neutral-200: oklch(100% 0.00011 271.152);
+  --color-accent: oklch(100% 0.00011 271.152);
+  --color-accent-hover: oklch(100% 0.00011 271.152);
+  --color-text: oklch(0% 0 0);
+  --rounding: .5rem;
+  --sidebar-toggler-size: 3rem;
+  --font: Geist Mono, monospace;
+}
+
+@property --sidebar-width {
+  syntax: "<number>";
+  initial-value: 0;
+  inherits: true;
+}
+@keyframes openSidebar {
+  from {
+    --sidebar-width: 0 ;
+  }
+  to {
+    --sidebar-width: 16;
+  }
+}
+@keyframes closeSidebar {
+  from {
+    --sidebar-width: 16;
+  }
+  to {
+    --sidebar-width: 0 ;
+  }
+}
+body {
+  color: var(--color-text);
+  background: var(--color-neutral-100);
+  font-family: var(--font);
+}
+
+.wrapper {
+  background: var(--color-neutral-100);
+  container-type: inline-size;
+}
+.wrapper:has(#sidebar-toggler-input:checked) {
+  animation: 0.25s ease closeSidebar;
+  --sidebar-width: 0;
+}
+.wrapper:not(:has(#sidebar-toggler-input:checked)) {
+  animation: 0.25s ease openSidebar;
+  --sidebar-width: 16;
+}
+
+.sidebar {
+  z-index: 40;
+  background-color: var(--color-accent);
+  position: absolute;
+  left: -16rem;
+  top: 55px;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  width: 16rem;
+  transform: translateX(calc(var(--sidebar-width) * 1rem));
+}
+.sidebar-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+.sidebar-toggler {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: calc(var(--sidebar-toggler-size) * -1);
+  top: 0;
+  background: var(--color-accent);
+  height: var(--sidebar-toggler-size);
+  width: var(--sidebar-toggler-size);
+  border: 0;
+  border-bottom-right-radius: var(--rounding);
+  cursor: pointer;
+  transition: 0.15s ease;
+  z-index: 50;
+}
+.sidebar-toggler-icon {
+  fill: black;
+  height: calc(var(--sidebar-toggler-size) * 0.5);
+  width: calc(var(--sidebar-toggler-size) * 0.5);
+}
+.sidebar-toggler:hover {
+  background: var(--color-accent-hover);
+}
+.sidebar-toggler input {
+  display: none;
+}
+
+.content {
+  position: relative;
+  background: #ffff;
+  padding: 3rem 2rem 1rem;
+}
+.content > * {
+  max-width: 48rem;
+}
+
+.padding {
+  padding: 1rem;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: 0.2s ease color;
+}
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+/*# sourceMappingURL=dash.css.map */
+
+/* From Uiverse.io by Yaroslav205728 */ 
+.input {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  background-color: #ffffff;
+  justify-content: center;
+  border-radius: 5px
+}
+
+.value {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  color: rgb(0, 0, 0);
+  display: flex;
+  position: relative;
+  gap: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.value:not(:active):hover,
+.value:focus {
+  background-color: #ececec;
+}
+
+.value:focus,
+.value:active {
+  background-color: #ffffff;
+  outline: none;
+}
+
+.value::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: -10px;
+  width: 5px;
+  height: 80%;
+  background-color: #2F81F7;
+  border-radius: 5px;
+  opacity: 0;
+}
+
+.value:focus::before,
+.value:active::before {
+  opacity: 1;
+}
+
+.value svg {
+  width: 20px
+}
