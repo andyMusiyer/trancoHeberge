@@ -10,13 +10,13 @@
       align-items: center;
       background: #ffffff;
       padding: 0.8rem 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      
     }
 
     .navbar-left {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1rem;
     }
 
     .navbar-right {

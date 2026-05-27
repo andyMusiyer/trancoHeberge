@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if (!isset($_SESSION['user_id'])) {
     header("Location: connexionpremier.html");
@@ -15,10 +14,10 @@ $user = [
     'numero' => $_SESSION['numero'] ?? 'Non renseigné',
     'abo' => $_SESSION['abonnement'],
     'jeton' => $_SESSION['jeton'],
-    'abonnement_exprire' => $_SESSION['abonnement_exprire'] ?? "pas d'abonnement actif",
+    'abonnement_exprire' => $_SESSION['abonnement_exprire'],
     'status' => $_SESSION['status'],
     'lastLogin' => $_SESSION['lastLogin'],
-    'date' => $_SESSION['createdAt'],
+    'date' => $_SESSION['createdAt'] ?? 'N/A',
     'updatedAt' => $_SESSION['updatedAt'] ?? 'N/A',
 ];
 
@@ -28,20 +27,23 @@ $statusColors = ['actif' => '#27ae60', 'inactif' => '#e67e22', 'banni' => '#e74c
 
 
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>compte</title>
-    <link rel="stylesheet" href="../look.css">
+  <meta charset="UTF-8">
+  <title>Navbar Moderne</title>
+  <link rel="stylesheet" href="../look.css">
+  <link rel="stylesheet" href="style/dash.css">
+  <link rel="stylesheet" href="style/compte.css">
+  
 </head>
 <body>
-
   <nav class="navbar">
     <div class="navbar-left">
-      <a href="index.html"><img src="logo.png" alt="Logo" class="logo"></a>
+       <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-dark" href="#">
+            <img src="../../assets/sectionPhoto.png" alt="Logo" height="40">
+            <span class="d-none d-sm-inline fs-4"></span>
+        </a>
       <a href="course.html">Course</a>
     </div>
     <div class="navbar-right">
@@ -64,64 +66,204 @@ $statusColors = ['actif' => '#27ae60', 'inactif' => '#e67e22', 'banni' => '#e74c
 </a>
     </div>
   </nav>
-    <!-- SECTION : Mon compte -->
-        <section id="compte" class="section">
-            <h1 class="page-title">Mon compte</h1>
-            
-            <div class="account-table">
-                <table>
-                    
-                    <tr>
-                        <th>Nom</th>
-                        <td><?php echo htmlspecialchars($user['nom']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Prénom</th>
-                        <td><?php echo htmlspecialchars($user['prenom']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td><?php echo htmlspecialchars($user['email']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Numéro de téléphone</th>
-                        <td><?php echo htmlspecialchars($user['numero']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Abonnement</th>
-                        <td><span style="color: #1abc9c; font-weight: bold;"><?php echo $abonnements[$user['abonnement']] ?? $user['abonnement']; ?></span></td>
-                    </tr>
-                    <tr>
-                        <th>Jetons</th>
-                        <td><?php echo $user['jeton']; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Expiration abonnement</th>
-                        <td><?php echo $user['abonnement_exprire'] ? date('d/m/Y', strtotime($user['abonnement_exprire'])) : 'Non défini'; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Statut</th>
-                        <td><span style="color: <?php echo $statusColors[$user['status']] ?? '#333'; ?>; font-weight: bold;"><?php echo ucfirst($user['status']); ?></span></td>
-                    </tr>
-                    <tr>
-                        <th>Dernière connexion</th>
-                        <td><?php echo $user['lastLogin'] ? date('d/m/Y H:i:s', strtotime($user['lastLogin'])) : 'Jamais'; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Compte créé le</th>
-                        <td><?php echo $user['createdAt'] ? date('d/m/Y', strtotime($user['createdAt'])) : 'N/A'; ?></td>
-                    </tr>
-                    <tr>
-                        <th>Dernière mise à jour</th>
-                        <td><?php echo $user['updatedAt'] ? date('d/m/Y H:i:s', strtotime($user['updatedAt'])) : 'N/A'; ?></td>
-                    </tr>
-                </table>
-            </div>
 
-            <div style="margin-top: 20px; text-align: right;">
-                <a href="modifier_profil.php" class="plan-btn plan-btn-primary">✏️ Modifier mon profil</a>
-            </div>
-        </section>
+  <div class="wrapper">
+	<aside class="sidebar">
+		<div class="sidebar-content">
+			<label class="sidebar-toggler">
+				<svg viewBox="0 0 448 512" width="100" title="bars" class="sidebar-toggler-icon">
+					<path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z" />
+				</svg>
+				<input id="sidebar-toggler-input" type="checkbox" />
+			</label>
+			<div class="padding">
+				<!-- From Uiverse.io by Yaroslav205728 --> 
+<div class="input">
+  <button class="value">
+    <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" data-name="Layer 2"><path fill="#7D8590" d="m1.5 13v1a.5.5 0 0 0 .3379.4731 18.9718 18.9718 0 0 0 6.1621 1.0269 18.9629 18.9629 0 0 0 6.1621-1.0269.5.5 0 0 0 .3379-.4731v-1a6.5083 6.5083 0 0 0 -4.461-6.1676 3.5 3.5 0 1 0 -4.078 0 6.5083 6.5083 0 0 0 -4.461 6.1676zm4-9a2.5 2.5 0 1 1 2.5 2.5 2.5026 2.5026 0 0 1 -2.5-2.5zm2.5 3.5a5.5066 5.5066 0 0 1 5.5 5.5v.6392a18.08 18.08 0 0 1 -11 0v-.6392a5.5066 5.5066 0 0 1 5.5-5.5z"></path></svg>
+    <p>Public profile</p>
+  </button>
+  <button class="value">
+    <svg id="Line" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path fill="#7D8590" id="XMLID_1646_" d="m17.074 30h-2.148c-1.038 0-1.914-.811-1.994-1.846l-.125-1.635c-.687-.208-1.351-.484-1.985-.824l-1.246 1.067c-.788.677-1.98.631-2.715-.104l-1.52-1.52c-.734-.734-.78-1.927-.104-2.715l1.067-1.246c-.34-.635-.616-1.299-.824-1.985l-1.634-.125c-1.035-.079-1.846-.955-1.846-1.993v-2.148c0-1.038.811-1.914 1.846-1.994l1.635-.125c.208-.687.484-1.351.824-1.985l-1.068-1.247c-.676-.788-.631-1.98.104-2.715l1.52-1.52c.734-.734 1.927-.779 2.715-.104l1.246 1.067c.635-.34 1.299-.616 1.985-.824l.125-1.634c.08-1.034.956-1.845 1.994-1.845h2.148c1.038 0 1.914.811 1.994 1.846l.125 1.635c.687.208 1.351.484 1.985.824l1.246-1.067c.787-.676 1.98-.631 2.715.104l1.52 1.52c.734.734.78 1.927.104 2.715l-1.067 1.246c.34.635.616 1.299.824 1.985l1.634.125c1.035.079 1.846.955 1.846 1.993v2.148c0 1.038-.811 1.914-1.846 1.994l-1.635.125c-.208.687-.484 1.351-.824 1.985l1.067 1.246c.677.788.631 1.98-.104 2.715l-1.52 1.52c-.734.734-1.928.78-2.715.104l-1.246-1.067c-.635.34-1.299.616-1.985.824l-.125 1.634c-.079 1.035-.955 1.846-1.993 1.846zm-5.835-6.373c.848.53 1.768.912 2.734 1.135.426.099.739.462.772.898l.18 2.341 2.149-.001.18-2.34c.033-.437.347-.8.772-.898.967-.223 1.887-.604 2.734-1.135.371-.232.849-.197 1.181.089l1.784 1.529 1.52-1.52-1.529-1.784c-.285-.332-.321-.811-.089-1.181.53-.848.912-1.768 1.135-2.734.099-.426.462-.739.898-.772l2.341-.18h-.001v-2.148l-2.34-.18c-.437-.033-.8-.347-.898-.772-.223-.967-.604-1.887-1.135-2.734-.232-.37-.196-.849.089-1.181l1.529-1.784-1.52-1.52-1.784 1.529c-.332.286-.81.321-1.181.089-.848-.53-1.768-.912-2.734-1.135-.426-.099-.739-.462-.772-.898l-.18-2.341-2.148.001-.18 2.34c-.033.437-.347.8-.772.898-.967.223-1.887.604-2.734 1.135-.37.232-.849.197-1.181-.089l-1.785-1.529-1.52 1.52 1.529 1.784c.285.332.321.811.089 1.181-.53.848-.912 1.768-1.135 2.734-.099.426-.462.739-.898.772l-2.341.18.002 2.148 2.34.18c.437.033.8.347.898.772.223.967.604 1.887 1.135 2.734.232.37.196.849-.089 1.181l-1.529 1.784 1.52 1.52 1.784-1.529c.332-.287.813-.32 1.18-.089z"></path><path id="XMLID_1645_" fill="#7D8590" d="m16 23c-3.859 0-7-3.141-7-7s3.141-7 7-7 7 3.141 7 7-3.141 7-7 7zm0-12c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z"></path></svg>
+    <a href="compte.php" style="color: black;">
+      <p>Mon compte</p>
+    </a>
+  </button>
+  <button class="value">
+    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg"><path fill="#7D8590" d="m109.9 20.63a6.232 6.232 0 0 0 -8.588-.22l-57.463 51.843c-.012.011-.02.024-.031.035s-.023.017-.034.027l-4.721 4.722a1.749 1.749 0 0 0 0 2.475l.341.342-3.16 3.16a8 8 0 0 0 -1.424 1.967 11.382 11.382 0 0 0 -12.055 10.609c-.006.036-.011.074-.015.111a5.763 5.763 0 0 1 -4.928 5.41 1.75 1.75 0 0 0 -.844 3.14c4.844 3.619 9.4 4.915 13.338 4.915a17.14 17.14 0 0 0 11.738-4.545l.182-.167a11.354 11.354 0 0 0 3.348-8.081c0-.225-.02-.445-.032-.667a8.041 8.041 0 0 0 1.962-1.421l3.16-3.161.342.342a1.749 1.749 0 0 0 2.475 0l4.722-4.722c.011-.011.018-.025.029-.036s.023-.018.033-.029l51.844-57.46a6.236 6.236 0 0 0 -.219-8.589zm-70.1 81.311-.122.111c-.808.787-7.667 6.974-17.826 1.221a9.166 9.166 0 0 0 4.36-7.036 1.758 1.758 0 0 0 .036-.273 7.892 7.892 0 0 1 9.122-7.414c.017.005.031.014.048.019a1.717 1.717 0 0 0 .379.055 7.918 7.918 0 0 1 4 13.317zm5.239-10.131c-.093.093-.194.176-.293.26a11.459 11.459 0 0 0 -6.289-6.286c.084-.1.167-.2.261-.3l3.161-3.161 6.321 6.326zm7.214-4.057-9.479-9.479 2.247-2.247 9.479 9.479zm55.267-60.879-50.61 56.092-9.348-9.348 56.092-50.61a2.737 2.737 0 0 1 3.866 3.866z"></path></svg>
+    Appearance
+  </button>
+  <button class="value">
+    <svg id="svg8" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g id="layer1" transform="translate(-33.022 -30.617)"><path fill="#7D8590" id="path26276" d="m49.021 31.617c-2.673 0-4.861 2.188-4.861 4.861 0 1.606.798 3.081 1.873 3.834h-7.896c-1.7 0-3.098 1.401-3.098 3.1s1.399 3.098 3.098 3.098h4.377l.223 2.641s-1.764 8.565-1.764 8.566c-.438 1.642.55 3.355 2.191 3.795s3.327-.494 3.799-2.191l2.059-5.189 2.059 5.189c.44 1.643 2.157 2.631 3.799 2.191s2.63-2.153 2.191-3.795l-1.764-8.566.223-2.641h4.377c1.699 0 3.098-1.399 3.098-3.098s-1.397-3.1-3.098-3.1h-7.928c1.102-.771 1.904-2.228 1.904-3.834 0-2.672-2.189-4.861-4.862-4.861zm0 2c1.592 0 2.861 1.27 2.861 2.861 0 1.169-.705 2.214-1.789 2.652-.501.203-.75.767-.563 1.273l.463 1.254c.145.393.519.654.938.654h8.975c.626 0 1.098.473 1.098 1.1s-.471 1.098-1.098 1.098h-5.297c-.52 0-.952.398-.996.916l-.311 3.701c-.008.096-.002.191.018.285 0 0 1.813 8.802 1.816 8.82.162.604-.173 1.186-.777 1.348s-1.184-.173-1.346-.777c-.01-.037-3.063-7.76-3.063-7.76-.334-.842-1.525-.842-1.859 0 0 0-3.052 7.723-3.063 7.76-.162.604-.741.939-1.346.777s-.939-.743-.777-1.348c.004-.019 1.816-8.82 1.816-8.82.02-.094.025-.189.018-.285l-.311-3.701c-.044-.518-.477-.916-.996-.916h-5.297c-.627 0-1.098-.471-1.098-1.098s.472-1.1 1.098-1.1h8.975c.419 0 .793-.262.938-.654l.463-1.254c.188-.507-.062-1.07-.563-1.273-1.084-.438-1.789-1.483-1.789-2.652.001-1.591 1.271-2.861 2.862-2.861z"></path></g></svg>
+    Accessibility
+  </button>
+  <button class="value">
+    <svg fill="none" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m11.9572 4.31201c-3.35401 0-6.00906 2.59741-6.00906 5.67742v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z" fill="#7D8590" fill-rule="evenodd"></path></svg>
+    Notifications
+  </button>
+</div>
+			</div>
+		</div>
+	</aside>
+	<main class="content">
+        <section id="compte" class="user-section">
+    <div class="user-section__header">
+        <h1 class="user-section__title">Mon compte</h1>
+        <p class="user-section__subtitle">Gérez vos informations personnelles</p>
+    </div>
 
+    <div class="user-card">
+        <div class="user-card__avatar">
+            <div class="avatar-circle">
+                <span><?php echo strtoupper(substr($user['prenom'], 0, 1) . substr($user['nom'], 0, 1)); ?></span>
+            </div>
+            <div class="user-card__badge">
+                <span class="status-dot" style="background: <?php echo $statusColors[$user['status']] ?? '#333'; ?>;"></span>
+                <?php echo ucfirst($user['status']); ?>
+            </div>
+        </div>
+
+        <div class="user-card__body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Nom complet</span>
+                        <span class="info-item__value"><?php echo htmlspecialchars($user['prenom'] . ' ' . $user['nom']); ?></span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Email</span>
+                        <span class="info-item__value"><?php echo htmlspecialchars($user['email']); ?></span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Téléphone</span>
+                        <span class="info-item__value"><?php echo htmlspecialchars($user['numero']); ?></span>
+                    </div>
+                </div>
+
+                <div class="info-item info-item--highlight">
+                    <div class="info-item__icon info-item__icon--premium">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Abonnement</span>
+                        <span class="info-item__value info-item__value--premium">
+                            <?php echo $abonnements[$user['abonnement']] ?? $user['abonnement']; ?>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-item info-item--tokens">
+                    <div class="info-item__icon info-item__icon--tokens">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Jetons disponibles</span>
+                        <span class="info-item__value info-item__value--tokens">
+                            <?php echo number_format($user['jeton'], 0, ',', ' '); ?>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Expiration abonnement</span>
+                        <span class="info-item__value <?php echo $user['abonnement_exprire'] && strtotime($user['abonnement_exprire']) < strtotime('+7 days') ? 'info-item__value--warning' : ''; ?>">
+                            <?php echo $user['abonnement_exprire'] ? date('d/m/Y', strtotime($user['abonnement_exprire'])) : 'Non défini'; ?>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Dernière connexion</span>
+                        <span class="info-item__value"><?php echo $user['lastLogin'] ? date('d/m/Y à H:i', strtotime($user['lastLogin'])) : 'Jamais'; ?></span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Compte créé le</span>
+                        <span class="info-item__value"><?php echo $user['createdAt'] ? date('d/m/Y', strtotime($user['createdAt'])) : 'N/A'; ?></span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-item__icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                    </div>
+                    <div class="info-item__content">
+                        <span class="info-item__label">Dernière mise à jour</span>
+                        <span class="info-item__value"><?php echo $user['updatedAt'] ? date('d/m/Y à H:i', strtotime($user['updatedAt'])) : 'N/A'; ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="user-card__footer">
+            <a href="modifier_profil.php" class="btn-edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                Modifier mon compte
+            </a>
+        </div>
+    </div>
+</section>
+
+	</main>
+</div>
 </body>
 </html>
